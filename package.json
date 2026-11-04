@@ -1,0 +1,24 @@
+{
+  "name": "filmlog-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "FilmLog API",
+  "engines": {
+    "node": ">=22.9.0"
+  },
+  "scripts": {
+    "db:up": "docker compose up -d --wait postgres",
+    "db:down": "docker compose down",
+    "db:migrate": "node --env-file-if-exists=.env scripts/db.js migrate",
+    "db:status": "node --env-file-if-exists=.env scripts/db.js status",
+    "db:migration:new": "supabase migration new",
+    "db:seed": "node --env-file-if-exists=.env scripts/db.js seed"
+  },
+  "dependencies": {
+    "pg": "8.23.1"
+  },
+  "devDependencies": {
+    "supabase": "3.0.0"
+  }
+}

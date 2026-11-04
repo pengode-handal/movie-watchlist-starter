@@ -1,0 +1,11 @@
+project_id = "gdgokgok-db"
+
+[api]
+enabled = false
+
+[db]
+port = 54322
+major_version = 17
+
+[db.seed]
+sql_paths = ["../data/seed.sql"]
