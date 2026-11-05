@@ -35,6 +35,7 @@ import {
 } from "./utils.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "sigmaboi";
+const EXP_TIME = process.env.EXP_TIME || "1h";
 
 const authenticateToken = (req, res, next) => {
     const authHeader = req.headers["authorization"];
@@ -52,9 +53,15 @@ app.use(["/api/watchlist", "/api/watched"], authenticateToken);
 
 app.post("/auth/login", async (req, res) => {
     const { email, password } = req.body ?? {};
-    if (typeof email !== "string" || !email.trim() ||
-        typeof password !== "string" || !password) {
-        return res.status(400).json({ error: "Email and password are required" });
+    if (
+        typeof email !== "string" ||
+        !email.trim() ||
+        typeof password !== "string" ||
+        !password
+    ) {
+        return res
+            .status(400)
+            .json({ error: "Email and password are required" });
     }
 
     try {
@@ -64,7 +71,7 @@ app.post("/auth/login", async (req, res) => {
         }
 
         const token = jwt.sign({ id: user.id, email: user.email }, JWT_SECRET, {
-            expiresIn: "1h",
+            expiresIn: EXP_TIME,
         });
 
         res.json({
@@ -79,9 +86,15 @@ app.post("/auth/login", async (req, res) => {
 
 app.post("/auth/register", async (req, res) => {
     const { email, password } = req.body ?? {};
-    if (typeof email !== "string" || !email.trim() ||
-        typeof password !== "string" || !password) {
-        return res.status(400).json({ error: "Email and password are required" });
+    if (
+        typeof email !== "string" ||
+        !email.trim() ||
+        typeof password !== "string" ||
+        !password
+    ) {
+        return res
+            .status(400)
+            .json({ error: "Email and password are required" });
     }
 
     try {
@@ -100,7 +113,7 @@ app.post("/auth/register", async (req, res) => {
         const token = jwt.sign(
             { id: newUser.id, email: newUser.email },
             JWT_SECRET,
-            { expiresIn: "1h" },
+            { expiresIn: EXP_TIME },
         );
 
         res.status(201).json({ token });
@@ -194,15 +207,27 @@ app.get("/api/watched", async (req, res) => {
 app.post("/api/watched", async (req, res) => {
     const userId = req.user.id;
     const { movieId, rating, review } = req.body ?? {};
-    if (!Number.isInteger(movieId) || movieId < 1 ||
-        !Number.isInteger(rating) || rating < 1 || rating > 5 ||
-        typeof review !== "string" || !review.trim()) {
-        return res.status(400).json({ error: "A valid movieId, rating (1-5), and review are required" });
+    if (
+        !Number.isInteger(movieId) ||
+        movieId < 1 ||
+        !Number.isInteger(rating) ||
+        rating < 1 ||
+        rating > 5 ||
+        typeof review !== "string" ||
+        !review.trim()
+    ) {
+        return res
+            .status(400)
+            .json({
+                error: "A valid movieId, rating (1-5), and review are required",
+            });
     }
 
     try {
         const added = await addWatched(userId, {
-            movieId, rating, review: review.trim(),
+            movieId,
+            rating,
+            review: review.trim(),
         });
         res.status(201).json(added);
     } catch (error) {

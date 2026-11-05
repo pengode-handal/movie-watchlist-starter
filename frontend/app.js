@@ -103,21 +103,21 @@ function logApiRequest(logItem) {
         .map(
             (l) => `
     <div class="flex items-center justify-between py-1 border-b border-brand-border/40">
-      <div class="flex items-center gap-2 overflow-hidden">
+    <div class="flex items-center gap-2 overflow-hidden">
         <span class="text-[10px] px-1.5 py-0.5 rounded font-bold ${
             l.ok
                 ? "bg-emerald-950 text-emerald-400 border border-emerald-800"
                 : "bg-rose-950 text-rose-400 border border-rose-800"
         }">${l.method}</span>
         <span class="text-white truncate max-w-xs sm:max-w-md">${l.url}</span>
-      </div>
-      <div class="flex items-center gap-3 shrink-0">
+    </div>
+    <div class="flex items-center gap-3 shrink-0">
         <span class="${l.ok ? "text-emerald-400" : "text-rose-400"} font-bold">${l.status}</span>
         <span class="text-brand-muted text-[10px]">${l.duration}ms</span>
         <span class="text-brand-muted text-[10px] hidden sm:inline">${l.time}</span>
-      </div>
     </div>
-  `,
+    </div>
+`,
         )
         .join("");
 }
@@ -258,10 +258,10 @@ async function loadDiscoverMovies(shuffle = false) {
         } catch (fallbackErr) {
             gridEl.innerHTML = `
         <div class="col-span-full py-12 text-center text-rose-400 bg-rose-950/20 border border-rose-900/40 rounded-xl p-6">
-          <p class="font-bold mb-1">Gagal terhubung ke backend (${state.apiBaseUrl})</p>
-          <p class="text-xs text-brand-muted">Pastikan server backend Anda menyala dan mengizinkan CORS.</p>
+        <p class="font-bold mb-1">Gagal terhubung ke backend (${state.apiBaseUrl})</p>
+        <p class="text-xs text-brand-muted">Pastikan server backend Anda menyala dan mengizinkan CORS.</p>
         </div>
-      `;
+    `;
         }
     }
 }
@@ -322,10 +322,10 @@ function renderMovieGrid() {
 
     if (state.filteredMovies.length === 0) {
         gridEl.innerHTML = `
-      <div class="col-span-full py-16 text-center text-brand-muted">
+    <div class="col-span-full py-16 text-center text-brand-muted">
         <p class="text-base font-semibold text-white">Tidak ada film yang cocok</p>
         <p class="text-xs mt-1">Coba ubah kata kunci pencarian atau filter genre.</p>
-      </div>
+    </div>
     `;
         return;
     }
@@ -338,41 +338,41 @@ function renderMovieGrid() {
                 "https://via.placeholder.com/300x450/1e242b/8996a6?text=No+Poster";
 
             return `
-      <div class="poster-hover group relative bg-brand-card rounded-xl overflow-hidden border border-brand-border/70 hover:border-brand-green/60 transition-all duration-300 hover:shadow-xl hover:shadow-brand-green/10 flex flex-col">
+    <div class="poster-hover group relative bg-brand-card rounded-xl overflow-hidden border border-brand-border/70 hover:border-brand-green/60 transition-all duration-300 hover:shadow-xl hover:shadow-brand-green/10 flex flex-col">
         <!-- Poster & Hover Overlay -->
         <div class="relative aspect-[2/3] w-full overflow-hidden bg-brand-dark cursor-pointer" onclick="openMovieDetail(${movie.id})">
-          <img src="${poster}" alt="${movie.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://via.placeholder.com/300x450/1e242b/8996a6?text=Poster'" />
-          
-          <!-- Rating badge -->
-          <div class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-md bg-black/80 backdrop-blur text-xs font-bold text-amber-400 flex items-center gap-1 border border-white/10">
+        <img src="${poster}" alt="${movie.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://via.placeholder.com/300x450/1e242b/8996a6?text=Poster'" />
+        
+        <!-- Rating badge -->
+        <div class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-md bg-black/80 backdrop-blur text-xs font-bold text-amber-400 flex items-center gap-1 border border-white/10">
             ★ <span>${movie.rating || "N/A"}</span>
-          </div>
+        </div>
 
-          <!-- Quick Action Buttons Overlay -->
-          <div class="poster-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 transition-opacity duration-200 flex flex-col justify-end p-3 space-y-2">
+        <!-- Quick Action Buttons Overlay -->
+        <div class="poster-overlay absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 transition-opacity duration-200 flex flex-col justify-end p-3 space-y-2">
             <button onclick="event.stopPropagation(); toggleWatchlist(${movie.id})" class="w-full py-1.5 px-2 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition ${
                 isWatchlisted
                     ? "bg-rose-600 hover:bg-rose-500 text-white"
                     : "bg-brand-surface/90 hover:bg-brand-green hover:text-black text-white border border-brand-border"
             }">
-              <i data-lucide="${isWatchlisted ? "check" : "bookmark"}" class="w-3.5 h-3.5"></i>
-              <span>${isWatchlisted ? "In Watchlist" : "Add Watchlist"}</span>
+            <i data-lucide="${isWatchlisted ? "check" : "bookmark"}" class="w-3.5 h-3.5"></i>
+            <span>${isWatchlisted ? "In Watchlist" : "Add Watchlist"}</span>
             </button>
             <button onclick="event.stopPropagation(); openWatchedModal(${movie.id})" class="w-full py-1.5 px-2 rounded-lg text-xs font-semibold bg-brand-surface/90 hover:bg-amber-400 hover:text-black text-white border border-brand-border flex items-center justify-center gap-1.5 transition">
-              <i data-lucide="star" class="w-3.5 h-3.5"></i>
-              <span>Mark Watched</span>
+            <i data-lucide="star" class="w-3.5 h-3.5"></i>
+            <span>Mark Watched</span>
             </button>
-          </div>
+        </div>
         </div>
 
         <!-- Info Bottom -->
         <div class="p-3 flex-1 flex flex-col justify-between">
-          <div>
+        <div>
             <h3 class="font-bold text-sm text-white line-clamp-1 group-hover:text-brand-green transition cursor-pointer" onclick="openMovieDetail(${movie.id})">${movie.title}</h3>
             <p class="text-xs text-brand-muted mt-0.5">${movie.year} • ${movie.director || "Unknown"}</p>
-          </div>
         </div>
-      </div>
+        </div>
+    </div>
     `;
         })
         .join("");
@@ -420,65 +420,65 @@ async function openMovieDetail(movieId) {
     const contentEl = document.getElementById("modal-detail-content");
     contentEl.innerHTML = `
     <div class="flex flex-col sm:flex-row gap-6">
-      <!-- Poster -->
-      <div class="w-full sm:w-52 shrink-0">
+    <!-- Poster -->
+    <div class="w-full sm:w-52 shrink-0">
         <img src="${poster}" alt="${movie.title}" class="w-full rounded-xl shadow-xl border border-brand-border" />
-      </div>
+    </div>
 
-      <!-- Info -->
-      <div class="flex-1 space-y-4">
+    <!-- Info -->
+    <div class="flex-1 space-y-4">
         <div>
-          <div class="flex items-center gap-2 mb-1">
+        <div class="flex items-center gap-2 mb-1">
             <span class="text-xs font-bold px-2 py-0.5 rounded bg-brand-green/20 text-brand-green border border-brand-green/30">${movie.year}</span>
             <span class="text-xs text-brand-muted">${movie.duration || ""}</span>
             <span class="text-xs font-bold text-amber-400 flex items-center gap-0.5 ml-auto">★ ${movie.rating || "N/A"}</span>
-          </div>
-          <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight">${movie.title}</h2>
-          <p class="text-sm text-brand-muted mt-1">Directed by <span class="text-white font-medium">${movie.director || "Unknown"}</span></p>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-black text-white leading-tight">${movie.title}</h2>
+        <p class="text-sm text-brand-muted mt-1">Directed by <span class="text-white font-medium">${movie.director || "Unknown"}</span></p>
         </div>
 
         <!-- Genres Chips -->
         <div class="flex flex-wrap gap-1.5">
-          ${genres.map((g) => `<span class="px-2 py-0.5 rounded-full bg-brand-dark border border-brand-border text-[11px] text-brand-muted">${g.trim()}</span>`).join("")}
+        ${genres.map((g) => `<span class="px-2 py-0.5 rounded-full bg-brand-dark border border-brand-border text-[11px] text-brand-muted">${g.trim()}</span>`).join("")}
         </div>
 
         <!-- Synopsis -->
         <div>
-          <h4 class="text-xs font-bold text-brand-muted uppercase tracking-wider mb-1">Synopsis</h4>
-          <p class="text-sm text-gray-300 leading-relaxed">${movie.synopsis || "No synopsis available."}</p>
+        <h4 class="text-xs font-bold text-brand-muted uppercase tracking-wider mb-1">Synopsis</h4>
+        <p class="text-sm text-gray-300 leading-relaxed">${movie.synopsis || "No synopsis available."}</p>
         </div>
 
         <!-- Cast -->
         ${
             cast.length
                 ? `
-          <div>
+        <div>
             <h4 class="text-xs font-bold text-brand-muted uppercase tracking-wider mb-1">Cast</h4>
             <p class="text-xs text-brand-muted">${cast.map((c) => c.trim()).join(" • ")}</p>
-          </div>
+        </div>
         `
                 : ""
         }
 
         <!-- Actions -->
         <div class="pt-4 border-t border-brand-border flex items-center gap-3">
-          <button onclick="toggleWatchlist(${movie.id})" class="flex-1 py-2.5 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition ${
-              isWatchlisted
-                  ? "bg-rose-600 hover:bg-rose-500 text-white"
-                  : "bg-brand-green text-black hover:brightness-110"
-          }">
+        <button onclick="toggleWatchlist(${movie.id})" class="flex-1 py-2.5 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition ${
+            isWatchlisted
+                ? "bg-rose-600 hover:bg-rose-500 text-white"
+                : "bg-brand-green text-black hover:brightness-110"
+        }">
             <i data-lucide="${isWatchlisted ? "check" : "bookmark"}" class="w-4 h-4"></i>
             <span>${isWatchlisted ? "Remove from Watchlist" : "Add to Watchlist"}</span>
-          </button>
+        </button>
 
-          <button onclick="closeMovieDetailModal(); openWatchedModal(${movie.id})" class="py-2.5 px-4 rounded-xl font-bold text-xs bg-brand-surfaceHover hover:bg-amber-400 hover:text-black border border-brand-border text-white flex items-center justify-center gap-2 transition">
+        <button onclick="openWatchedModal(${movie.id})" class="py-2.5 px-4 rounded-xl font-bold text-xs bg-brand-surfaceHover hover:bg-amber-400 hover:text-black border border-brand-border text-white flex items-center justify-center gap-2 transition">
             <i data-lucide="star" class="w-4 h-4"></i>
             <span>Log Review</span>
-          </button>
+        </button>
         </div>
-      </div>
     </div>
-  `;
+    </div>
+`;
 
     const modal = document.getElementById("movie-detail-modal");
     modal.classList.remove("hidden");
@@ -595,25 +595,25 @@ function renderWatchlistGrid() {
                 movie.poster_url || "https://via.placeholder.com/300x450";
 
             return `
-      <div class="bg-brand-card rounded-xl overflow-hidden border border-brand-border flex flex-col group">
+    <div class="bg-brand-card rounded-xl overflow-hidden border border-brand-border flex flex-col group">
         <div class="relative aspect-[2/3] overflow-hidden bg-brand-dark cursor-pointer" onclick="openMovieDetail(${movie.id})">
-          <img src="${poster}" alt="${movie.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+        <img src="${poster}" alt="${movie.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
         </div>
         <div class="p-3 flex-1 flex flex-col justify-between">
-          <div>
+        <div>
             <h4 class="font-bold text-sm text-white truncate cursor-pointer hover:text-brand-green" onclick="openMovieDetail(${movie.id})">${movie.title}</h4>
             <p class="text-xs text-brand-muted mt-0.5">${movie.year || ""}</p>
-          </div>
-          <div class="flex items-center gap-2 mt-3 pt-2 border-t border-brand-border">
+        </div>
+        <div class="flex items-center gap-2 mt-3 pt-2 border-t border-brand-border">
             <button onclick="toggleWatchlist(${movie.id})" class="text-xs text-rose-400 hover:text-rose-300 py-1 flex items-center gap-1">
-              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Hapus
             </button>
             <button onclick="openWatchedModal(${movie.id})" class="text-xs text-amber-400 hover:text-amber-300 py-1 ml-auto flex items-center gap-1 font-semibold">
-              <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Watched
+            <i data-lucide="check-circle" class="w-3.5 h-3.5"></i> Watched
             </button>
-          </div>
         </div>
-      </div>
+        </div>
+    </div>
     `;
         })
         .join("");
@@ -655,42 +655,42 @@ function openWatchedModal(movieId) {
     const contentEl = document.getElementById("modal-detail-content");
     contentEl.innerHTML = `
     <div class="space-y-4">
-      <div class="border-b border-brand-border pb-3">
+    <div class="border-b border-brand-border pb-3">
         <span class="text-xs font-bold text-brand-green uppercase tracking-wider">Log Review & Thoughts</span>
         <h2 class="text-2xl font-bold text-white mt-1">${movie.title}</h2>
-      </div>
+    </div>
 
-      <form id="watched-form" onsubmit="handleWatchedSubmit(event, ${movie.id})" class="space-y-4">
+    <form id="watched-form" onsubmit="handleWatchedSubmit(event, ${movie.id})" class="space-y-4">
         <div>
-          <label class="block text-xs font-semibold text-brand-muted uppercase mb-1.5">Rating Kamu (1 - 5 Bintang)</label>
-          <div class="flex items-center gap-2" id="star-selector">
+        <label class="block text-xs font-semibold text-brand-muted uppercase mb-1.5">Rating Kamu (1 - 5 Bintang)</label>
+        <div class="flex items-center gap-2" id="star-selector">
             ${[1, 2, 3, 4, 5]
                 .map(
                     (star) => `
-              <button type="button" onclick="setRatingValue(${star})" class="star-btn text-2xl text-brand-muted hover:text-amber-400 transition" data-star="${star}">
+            <button type="button" onclick="setRatingValue(${star})" class="star-btn text-2xl text-brand-muted hover:text-amber-400 transition" data-star="${star}">
                 ★
-              </button>
+            </button>
             `,
                 )
                 .join("")}
-          </div>
-          <input type="hidden" id="watched-rating-input" value="5" />
+        </div>
+        <input type="hidden" id="watched-rating-input" value="5" />
         </div>
 
         <div>
-          <label class="block text-xs font-semibold text-brand-muted uppercase mb-1.5">Opini & Review Kamu</label>
-          <textarea id="watched-review-input" rows="4" required placeholder="Tuliskan pendapatmu tentang alur cerita, akting, atau kesan setelah menonton film ini..." class="w-full bg-brand-dark border border-brand-border rounded-xl p-3 text-sm text-white placeholder-brand-muted focus:outline-none focus:border-brand-green resize-none"></textarea>
+        <label class="block text-xs font-semibold text-brand-muted uppercase mb-1.5">Opini & Review Kamu</label>
+        <textarea id="watched-review-input" rows="4" required placeholder="Tuliskan pendapatmu tentang alur cerita, akting, atau kesan setelah menonton film ini..." class="w-full bg-brand-dark border border-brand-border rounded-xl p-3 text-sm text-white placeholder-brand-muted focus:outline-none focus:border-brand-green resize-none"></textarea>
         </div>
 
         <div class="pt-3 border-t border-brand-border flex items-center justify-end gap-3">
-          <button type="button" onclick="closeMovieDetailModal()" class="px-4 py-2 text-sm text-brand-muted hover:text-white transition">Batal</button>
-          <button type="submit" class="px-5 py-2.5 bg-brand-green text-black font-bold text-sm rounded-xl hover:brightness-110 transition flex items-center gap-2">
+        <button type="button" onclick="closeMovieDetailModal()" class="px-4 py-2 text-sm text-brand-muted hover:text-white transition">Batal</button>
+        <button type="submit" class="px-5 py-2.5 bg-brand-green text-black font-bold text-sm rounded-xl hover:brightness-110 transition flex items-center gap-2">
             <i data-lucide="check" class="w-4 h-4"></i> Simpan Catatan
-          </button>
+        </button>
         </div>
-      </form>
+    </form>
     </div>
-  `;
+`;
 
     setRatingValue(5);
     const modal = document.getElementById("movie-detail-modal");
@@ -780,23 +780,23 @@ function renderWatchedList() {
                     : "Baru saja";
 
             return `
-      <div class="bg-brand-surface p-4 sm:p-5 rounded-2xl border border-brand-border flex gap-4 sm:gap-6 items-start">
+    <div class="bg-brand-surface p-4 sm:p-5 rounded-2xl border border-brand-border flex gap-4 sm:gap-6 items-start">
         <img src="${poster}" alt="${movie.title}" class="w-16 sm:w-20 aspect-[2/3] object-cover rounded-lg shrink-0 border border-brand-border shadow-md" />
         <div class="flex-1 space-y-2">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
             <h4 class="font-bold text-base text-white hover:text-brand-green cursor-pointer" onclick="openMovieDetail(${movieId})">
-              ${movie.title} <span class="text-xs text-brand-muted font-normal">(${movie.year || ""})</span>
+            ${movie.title} <span class="text-xs text-brand-muted font-normal">(${movie.year || ""})</span>
             </h4>
             <div class="flex items-center gap-2">
-              <span class="text-amber-400 font-bold text-sm tracking-wider">${ratingStars}</span>
-              <span class="text-[11px] text-brand-muted">${dateStr}</span>
+            <span class="text-amber-400 font-bold text-sm tracking-wider">${ratingStars}</span>
+            <span class="text-[11px] text-brand-muted">${dateStr}</span>
             </div>
-          </div>
-          <p class="text-sm text-gray-300 leading-relaxed bg-brand-dark/40 p-3 rounded-xl border border-brand-border/40 font-normal">
-            "${item.review || item.opinion || "Tidak ada catatan ulasan."}"
-          </p>
         </div>
-      </div>
+        <p class="text-sm text-gray-300 leading-relaxed bg-brand-dark/40 p-3 rounded-xl border border-brand-border/40 font-normal">
+            "${item.review || item.opinion || "Tidak ada catatan ulasan."}"
+        </p>
+        </div>
+    </div>
     `;
         })
         .join("");
@@ -878,51 +878,51 @@ function renderAiRecommendation(data) {
 
     container.innerHTML = `
     <div class="bg-gradient-to-br from-brand-surface via-brand-card to-brand-surface p-6 sm:p-8 rounded-2xl border-2 border-brand-green/40 shadow-2xl relative overflow-hidden">
-      <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+    <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
         <i data-lucide="sparkles" class="w-32 h-32 text-brand-green"></i>
-      </div>
+    </div>
 
-      <div class="relative z-10">
+    <div class="relative z-10">
         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-green/20 text-brand-green text-xs font-bold mb-4 border border-brand-green/40">
-          ✨ Rekomendasi Terpilih dari Database Anda
+        ✨ Rekomendasi Terpilih dari Database Anda
         </div>
 
         <div class="flex flex-col sm:flex-row gap-6 items-start">
-          <img src="${poster}" alt="${matchedMovie.title}" class="w-36 sm:w-44 aspect-[2/3] object-cover rounded-xl border border-brand-border shadow-xl shrink-0" />
-          
-          <div class="flex-1 space-y-3">
+        <img src="${poster}" alt="${matchedMovie.title}" class="w-36 sm:w-44 aspect-[2/3] object-cover rounded-xl border border-brand-border shadow-xl shrink-0" />
+        
+        <div class="flex-1 space-y-3">
             <div>
-              <div class="flex items-center gap-2">
+            <div class="flex items-center gap-2">
                 <span class="text-xs font-bold text-amber-400">★ ${matchedMovie.rating || "N/A"}</span>
                 <span class="text-xs text-brand-muted">• ${matchedMovie.year || ""}</span>
-              </div>
-              <h3 class="text-2xl font-black text-white hover:text-brand-green cursor-pointer" onclick="openMovieDetail(${matchedMovie.id})">${matchedMovie.title}</h3>
-              <p class="text-xs text-brand-muted">Directed by ${matchedMovie.director || "Unknown"}</p>
+            </div>
+            <h3 class="text-2xl font-black text-white hover:text-brand-green cursor-pointer" onclick="openMovieDetail(${matchedMovie.id})">${matchedMovie.title}</h3>
+            <p class="text-xs text-brand-muted">Directed by ${matchedMovie.director || "Unknown"}</p>
             </div>
 
             <!-- Gemini Reasoning Card -->
             <div class="bg-brand-dark/70 border border-brand-border/60 rounded-xl p-4 space-y-1.5">
-              <span class="text-xs font-bold text-brand-green flex items-center gap-1.5">
+            <span class="text-xs font-bold text-brand-green flex items-center gap-1.5">
                 <i data-lucide="bot" class="w-3.5 h-3.5"></i> Alasan Rekomendasi (Gemini Analysis):
-              </span>
-              <p class="text-xs text-gray-200 leading-relaxed italic">
+            </span>
+            <p class="text-xs text-gray-200 leading-relaxed italic">
                 "${reasoning}"
-              </p>
+            </p>
             </div>
 
             <div class="pt-2 flex items-center gap-3">
-              <button onclick="openMovieDetail(${matchedMovie.id})" class="px-4 py-2 bg-brand-surfaceHover border border-brand-border hover:border-brand-green text-xs font-semibold text-white rounded-xl transition">
+            <button onclick="openMovieDetail(${matchedMovie.id})" class="px-4 py-2 bg-brand-surfaceHover border border-brand-border hover:border-brand-green text-xs font-semibold text-white rounded-xl transition">
                 Lihat Detail Lengkap
-              </button>
-              <button onclick="toggleWatchlist(${matchedMovie.id})" class="px-4 py-2 bg-brand-green text-black text-xs font-bold rounded-xl hover:brightness-110 transition flex items-center gap-1.5">
+            </button>
+            <button onclick="toggleWatchlist(${matchedMovie.id})" class="px-4 py-2 bg-brand-green text-black text-xs font-bold rounded-xl hover:brightness-110 transition flex items-center gap-1.5">
                 <i data-lucide="bookmark" class="w-3.5 h-3.5"></i> Masukkan ke Watchlist
-              </button>
+            </button>
             </div>
-          </div>
         </div>
-      </div>
+        </div>
     </div>
-  `;
+    </div>
+`;
 
     lucide.createIcons();
 }
@@ -936,26 +936,26 @@ function renderAuthUI() {
 
     if (state.token && state.user) {
         container.innerHTML = `
-      <div class="flex items-center space-x-2">
+    <div class="flex items-center space-x-2">
         <div class="w-8 h-8 rounded-full bg-brand-border flex items-center justify-center font-bold text-xs text-white uppercase border border-brand-border">
-          ${(state.user.username || state.user.email || "U")[0]}
+        ${(state.user.username || state.user.email || "U")[0]}
         </div>
         <span class="text-xs font-semibold text-white hidden sm:inline">${state.user.username || state.user.email}</span>
         <button onclick="logout()" title="Logout" class="p-1.5 rounded-lg text-brand-muted hover:text-rose-400 hover:bg-rose-950/20 transition">
-          <i data-lucide="log-out" class="w-4 h-4"></i>
+        <i data-lucide="log-out" class="w-4 h-4"></i>
         </button>
-      </div>
+    </div>
     `;
     } else {
         container.innerHTML = `
-      <div class="flex items-center space-x-2">
+    <div class="flex items-center space-x-2">
         <button onclick="openAuthModal('login')" class="px-3 py-1.5 rounded-lg text-xs font-semibold text-white hover:bg-brand-surfaceHover transition">
-          Login
+        Login
         </button>
         <button onclick="openAuthModal('register')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-brand-green text-black hover:brightness-110 transition">
-          Register
+        Register
         </button>
-      </div>
+    </div>
     `;
     }
     lucide.createIcons();
