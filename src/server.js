@@ -1,8 +1,7 @@
 import express from "express";
-// const bcrypt = require("bcrypt");
 import bcrypt from "bcrypt";
-// const jwt = require("jsonwebtoken");
 import jwt from "jsonwebtoken";
+import { rateLimit } from "express-rate-limit";
 import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
 dotenv.config();
@@ -10,19 +9,6 @@ const app = express();
 app.use(express.json());
 app.use(express.static("frontend"));
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-// app.use(express.static("data"));
-
-// const {
-//     getMovies,
-//     getMovieById,
-//     getWatchlist,
-//     addToWatchlist,
-//     removeFromWatchlist,
-//     getWatched,
-//     addWatched,
-//     getUserByEmail,
-//     createUser,
-// } = require("./utils");
 
 import {
     getMovies,
@@ -51,7 +37,24 @@ const authenticateToken = (req, res, next) => {
     });
 };
 
-app.use(["/api/watchlist", "/api/watched"], authenticateToken);
+app.use(
+    ["/api/watchlist", "/api/watched", "/api/movies/recommend"],
+    authenticateToken,
+);
+
+app.use(
+    "/api/movies/recommend",
+    rateLimit({
+        windowMs: 60 * 1000,
+        limit: 5,
+        keyGenerator: (req) => String(req.user.id),
+        standardHeaders: true,
+        legacyHeaders: false,
+        message: {
+            error: "Rate limit exceeded.",
+        },
+    }),
+);
 
 app.post("/api/movies/recommend", async (req, res) => {
     const { prompt } = req.body ?? {};
@@ -88,7 +91,6 @@ app.post("/api/movies/recommend", async (req, res) => {
                 },
             },
         });
-        // console.log("AI Response:", response.text);
         const result = JSON.parse(response.text);
         if (!movies.some((movie) => movie.id === result.movie_id)) {
             return res.status(502).json({
@@ -103,7 +105,7 @@ app.post("/api/movies/recommend", async (req, res) => {
     }
 });
 
-app.post("/auth/login", async (req, res) => {
+app.post("/api/auth/login", async (req, res) => {
     const { email, password } = req.body ?? {};
     if (
         typeof email !== "string" ||
@@ -136,7 +138,7 @@ app.post("/auth/login", async (req, res) => {
     }
 });
 
-app.post("/auth/register", async (req, res) => {
+app.post("/api/auth/register", async (req, res) => {
     const { email, password } = req.body ?? {};
     if (
         typeof email !== "string" ||

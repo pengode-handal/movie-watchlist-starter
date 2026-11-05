@@ -8,7 +8,7 @@
 // ==========================================
 const state = {
     apiBaseUrl:
-        localStorage.getItem("filmlog_api_url") || "http://localhost:3000/",
+        localStorage.getItem("filmlog_api_url") || window.location.origin,
     token: localStorage.getItem("filmlog_token") || null,
     user: JSON.parse(localStorage.getItem("filmlog_user") || "null"),
     currentTab: "discover",
@@ -1023,7 +1023,9 @@ async function handleAuthSubmit(event) {
 
     try {
         const endpoint =
-            state.authMode === "register" ? "/auth/register" : "/auth/login";
+            state.authMode === "register"
+                ? "/api/auth/register"
+                : "/api/auth/login";
         const payload =
             state.authMode === "register"
                 ? { email, password, username: username || email.split("@")[0] }
