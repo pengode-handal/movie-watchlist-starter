@@ -3,11 +3,13 @@ import express from "express";
 import bcrypt from "bcrypt";
 // const jwt = require("jsonwebtoken");
 import jwt from "jsonwebtoken";
+import { GoogleGenAI } from "@google/genai";
 import dotenv from "dotenv";
 dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(express.static("frontend"));
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 // app.use(express.static("data"));
 
 // const {
@@ -50,6 +52,50 @@ const authenticateToken = (req, res, next) => {
 };
 
 app.use(["/api/watchlist", "/api/watched"], authenticateToken);
+
+app.post("/api/movies/recommend", async (req, res) => {
+    const { prompt } = req.body ?? {};
+    if (typeof prompt !== "string" || !prompt.trim()) {
+        return res.status(400).json({ error: "Prompt is required" });
+    }
+
+    try {
+        const response = await ai.models.generateContent({
+            model: process.env.GEMINI_MODEL || "gemini-3.1-flash-lite",
+            contents: JSON.stringify({
+                preferences: prompt,
+                movies: (await getMovies()).map(
+                    ({ title, id, genres, synopsis }) => ({
+                        id: id,
+                        title: title,
+                        genres: genres,
+                        synopsis: synopsis,
+                    }),
+                ),
+            }),
+            config: {
+                systemInstruction:
+                    "Pilih satu film hanya dari daftar yang diberikan. " +
+                    "Berikan alasan dalam bahasa Indonesia.",
+                responseMimeType: "application/json",
+                responseJsonSchema: {
+                    type: "object",
+                    properties: {
+                        movie_id: { type: "integer" },
+                        reasoning: { type: "string" },
+                    },
+                    required: ["movie_id", "reasoning"],
+                    additionalProperties: false,
+                },
+            },
+        });
+        console.log("AI Response:", response.text);
+        res.send(JSON.parse(response.text));
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+});
 
 app.post("/auth/login", async (req, res) => {
     const { email, password } = req.body ?? {};
@@ -216,11 +262,9 @@ app.post("/api/watched", async (req, res) => {
         typeof review !== "string" ||
         !review.trim()
     ) {
-        return res
-            .status(400)
-            .json({
-                error: "A valid movieId, rating (1-5), and review are required",
-            });
+        return res.status(400).json({
+            error: "A valid movieId, rating (1-5), and review are required",
+        });
     }
 
     try {

@@ -836,7 +836,7 @@ async function submitAiRecommendation() {
 
     try {
         // POST /api/movies/recommend
-        const response = await apiFetch("/movies/recommend", {
+        const response = await apiFetch("/api/movies/recommend", {
             method: "POST",
             body: JSON.stringify({
                 prompt: prompt,
