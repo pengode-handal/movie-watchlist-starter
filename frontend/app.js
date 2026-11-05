@@ -8,7 +8,7 @@
 // ==========================================
 const state = {
     apiBaseUrl:
-        localStorage.getItem("filmlog_api_url") || "http://localhost:8000/",
+        localStorage.getItem("filmlog_api_url") || "http://localhost:3000/",
     token: localStorage.getItem("filmlog_token") || null,
     user: JSON.parse(localStorage.getItem("filmlog_user") || "null"),
     currentTab: "discover",
@@ -913,8 +913,7 @@ function renderAiRecommendation(data) {
             <span class="text-xs font-bold text-brand-green flex items-center gap-1.5">
                 <i data-lucide="bot" class="w-3.5 h-3.5"></i> Alasan Rekomendasi (Gemini Analysis):
             </span>
-            <p class="text-xs text-gray-200 leading-relaxed italic">
-                "${reasoning}"
+            <p data-reasoning-gemini class="text-xs text-gray-200 leading-relaxed italic">
             </p>
             </div>
 
@@ -931,6 +930,8 @@ function renderAiRecommendation(data) {
     </div>
     </div>
 `;
+    const p = container.querySelector("[data-reasoning-gemini]");
+    p.textContent = reasoning;
 
     lucide.createIcons();
 }

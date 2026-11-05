@@ -60,18 +60,17 @@ app.post("/api/movies/recommend", async (req, res) => {
     }
 
     try {
+        const movies = await getMovies();
         const response = await ai.models.generateContent({
             model: process.env.GEMINI_MODEL || "gemini-3.1-flash-lite",
             contents: JSON.stringify({
                 preferences: prompt,
-                movies: (await getMovies()).map(
-                    ({ title, id, genres, synopsis }) => ({
-                        id: id,
-                        title: title,
-                        genres: genres,
-                        synopsis: synopsis,
-                    }),
-                ),
+                movies: movies.map(({ title, id, genres, synopsis }) => ({
+                    id: id,
+                    title: title,
+                    genres: genres,
+                    synopsis: synopsis,
+                })),
             }),
             config: {
                 systemInstruction:
@@ -89,8 +88,15 @@ app.post("/api/movies/recommend", async (req, res) => {
                 },
             },
         });
-        console.log("AI Response:", response.text);
-        res.send(JSON.parse(response.text));
+        // console.log("AI Response:", response.text);
+        const result = JSON.parse(response.text);
+        if (!movies.some((movie) => movie.id === result.movie_id)) {
+            return res.status(502).json({
+                error: "AI returned an unknown movie",
+            });
+        }
+
+        res.json(result);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
