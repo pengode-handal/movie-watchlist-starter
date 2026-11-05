@@ -792,14 +792,22 @@ function renderWatchedList() {
             <span class="text-[11px] text-brand-muted">${dateStr}</span>
             </div>
         </div>
-        <p class="text-sm text-gray-300 leading-relaxed bg-brand-dark/40 p-3 rounded-xl border border-brand-border/40 font-normal">
-            "${item.review || item.opinion || "Tidak ada catatan ulasan."}"
+        <p data-review-text class="whitespace-pre-wrap text-sm text-gray-300 leading-relaxed bg-brand-dark/40 p-3 rounded-xl border border-brand-border/40 font-normal">
         </p>
         </div>
     </div>
     `;
         })
         .join("");
+    const p = container.querySelectorAll("[data-review-text]");
+
+    p.forEach((el, index) => {
+        const reviewText =
+            state.watchedList[index].review ||
+            state.watchedList[index].opinion ||
+            "Tidak ada review.";
+        el.textContent = reviewText;
+    });
 }
 
 // ==========================================
