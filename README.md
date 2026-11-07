@@ -17,13 +17,17 @@ Bebas menggunakan bahasa pemrograman dan framework apa pun (Node.js/Express/Nest
 
 ```text
 movie-watchlist-starter/
-├── data/
-│   ├── movies.json     # Data 20 film awal (format JSON) untuk database seeder
-│   └── seed.sql        # Skrip SQL INSERT kompatibel dengan PostgreSQL & MySQL
 ├── frontend/
 │   ├── index.html      # Frontend Letterboxd-style SPA (Zero-build Tailwind)
 │   ├── app.js          # Client logic & API caller
+│   ├── data/
+│   │   └── movies.json # Data 20 film awal (format JSON)
 │   └── README.md       # Panduan menjalankan frontend
+├── backend/
+│   ├── src/            # Express API
+│   ├── supabase/       # Migration & seed.sql (SQL INSERT 20 film)
+│   └── package.json
+├── vercel.json         # Deploy frontend + backend sebagai satu project Vercel
 └── README.md           # Panduan penugasan & spesifikasi API
 ```
 

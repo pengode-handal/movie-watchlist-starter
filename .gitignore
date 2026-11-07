@@ -4,8 +4,8 @@ Thumbs.db
 .env
 .env.local
 node_modules/
-supabase/.temp/
-supabase/.branches/
+backend/supabase/.temp/
+backend/supabase/.branches/
 compose.yaml
 assignment.pdf
 scripts/
