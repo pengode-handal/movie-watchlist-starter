@@ -215,7 +215,10 @@ app.get("/api/watchlist", async (req, res) => {
 
 app.post("/api/watchlist", async (req, res) => {
     const userId = req.user.id;
-    const { movieId } = req.body;
+    const { movieId } = req.body ?? {};
+    if (!Number.isInteger(movieId) || movieId < 1) {
+        return res.status(400).json({ error: "A valid movieId is required" });
+    }
     try {
         const added = await addToWatchlist(userId, movieId);
         if (!added) {
@@ -225,6 +228,9 @@ app.post("/api/watchlist", async (req, res) => {
         }
         res.status(201).json(added);
     } catch (error) {
+        if (error.code === "23503") {
+            return res.status(404).json({ error: "Movie not found" });
+        }
         console.error(error);
         res.status(500).json({ error: "Internal Server Error" });
     }
