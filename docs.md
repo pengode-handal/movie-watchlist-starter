@@ -4,7 +4,7 @@ Backend assignment GDGoC. REST API movie watchlist dengan login JWT, review, dan
 
 - Deploy: https://gcgocsaiph.vercel.app
 - Postman collection: https://documenter.getpostman.com/view/60024070/2sBYHYuHr7
-- Video: https://drive.google.com/file/d/10txcBXKvKuh0PhCWwlMBaFSqQxA-ktsN/view?usp=sharing (diakhir ngeblank dikit ga ngaruh)
+- Video: https://drive.google.com/file/d/1pgk8b3Oe7nisR-3d7izKqgcXI5Zi7I7p/view?usp=sharing (diakhir ngeblank dikit ga ngaruh)
 
 | Component  | Technology                  |
 | ---------- | --------------------------- |
